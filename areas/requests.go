@@ -61,7 +61,11 @@ func (p *Client) Get(area interface{}) (*Response, error) {
 func toCode(v interface{}) string {
 	switch area := v.(type) {
 	case int:
-		return fmt.Sprintf("%d", area)
+		add := ""
+		if area < 10 {
+			add = "0"
+		}
+		return fmt.Sprintf("%s%d", add, area)
 	case string:
 		return ToAreaCode(area)
 	}

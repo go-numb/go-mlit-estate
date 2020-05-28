@@ -19,33 +19,39 @@ type Client struct {
 }
 
 type Response struct {
-	Status string `json:"status"`
-	Data   []struct {
-		Type             string `json:"Type"`
-		Region           string `json:"Region,omitempty"`
-		MunicipalityCode string `json:"MunicipalityCode"`
-		Prefecture       string `json:"Prefecture"`
-		Municipality     string `json:"Municipality"`
-		DistrictName     string `json:"DistrictName"`
-		TradePrice       string `json:"TradePrice"`
-		Area             string `json:"Area"`
-		LandShape        string `json:"LandShape,omitempty"`
-		Frontage         string `json:"Frontage,omitempty"`
-		TotalFloorArea   string `json:"TotalFloorArea,omitempty"`
-		BuildingYear     string `json:"BuildingYear,omitempty"`
-		Structure        string `json:"Structure"`
-		Use              string `json:"Use"`
-		Direction        string `json:"Direction,omitempty"`
-		Classification   string `json:"Classification,omitempty"`
-		Breadth          string `json:"Breadth,omitempty"`
-		CityPlanning     string `json:"CityPlanning"`
-		CoverageRatio    string `json:"CoverageRatio"`
-		FloorAreaRatio   string `json:"FloorAreaRatio"`
-		Period           string `json:"Period"`
-		FloorPlan        string `json:"FloorPlan,omitempty"`
-		Renovation       string `json:"Renovation,omitempty"`
-		Remarks          string `json:"Remarks,omitempty"`
-	} `json:"data"`
+	Status string   `json:"status"`
+	Data   []Result `json:"data"`
+}
+
+type Result struct {
+	Type             string `json:"Type"`
+	Region           string `json:"Region,omitempty"`
+	MunicipalityCode string `json:"MunicipalityCode"`
+	Prefecture       string `json:"Prefecture"`
+	Municipality     string `json:"Municipality"`
+	DistrictName     string `json:"DistrictName"`
+	TradePrice       string `json:"TradePrice"`
+	Area             string `json:"Area"`
+	LandShape        string `json:"LandShape,omitempty"`
+	Frontage         string `json:"Frontage,omitempty"`
+	TotalFloorArea   string `json:"TotalFloorArea,omitempty"`
+	BuildingYear     string `json:"BuildingYear,omitempty"`
+	Structure        string `json:"Structure"`
+	Use              string `json:"Use"`
+	Direction        string `json:"Direction,omitempty"`
+	Classification   string `json:"Classification,omitempty"`
+	Breadth          string `json:"Breadth,omitempty"`
+	CityPlanning     string `json:"CityPlanning"`
+	CoverageRatio    string `json:"CoverageRatio"`
+	FloorAreaRatio   string `json:"FloorAreaRatio"`
+	Period           string `json:"Period"`
+	FloorPlan        string `json:"FloorPlan,omitempty"`
+	Renovation       string `json:"Renovation,omitempty"`
+	Remarks          string `json:"Remarks,omitempty"`
+}
+
+func (p *Response) Num() int {
+	return len(p.Data)
 }
 
 type Request struct {
@@ -77,7 +83,7 @@ func (p *Client) Get(r *Request) (*Response, error) {
 	}
 
 	client := http.Client{
-		Timeout: 5 * time.Second,
+		Timeout: 10 * time.Second,
 	}
 	res, err := client.Do(req)
 	if err != nil {
